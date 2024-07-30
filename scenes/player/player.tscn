@@ -1,6 +1,8 @@
-[gd_scene load_steps=40 format=3 uid="uid://b5mwjua8h0kh5"]
+[gd_scene load_steps=42 format=3 uid="uid://b5mwjua8h0kh5"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_cmijl"]
+[ext_resource type="PackedScene" uid="uid://bblskvyrmiilj" path="res://scenes/subsystems/health/health.tscn" id="2_3q7o3"]
+[ext_resource type="PackedScene" uid="uid://ck5m45n6q1rtc" path="res://scenes/subsystems/hitbox/hitbox.tscn" id="2_a6k1e"]
 [ext_resource type="Texture2D" uid="uid://51opbmocllve" path="res://assets/player.png" id="2_vdrbk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1784y"]
@@ -32,6 +34,54 @@ tracks/1/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Area2D/AttackUpCollision:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Area2D/AttackDownCollision:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Area2D/AttackLeftCollision:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Area2D/AttackRightCollision:disabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_ab5uc"]
 resource_name = "attack down"
@@ -48,6 +98,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [36, 37, 38, 39]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Area2D/AttackDownCollision:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.32),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
 }
 
 [sub_resource type="Animation" id="Animation_aa2s1"]
@@ -78,6 +140,18 @@ tracks/1/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Area2D/AttackLeftCollision:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.32),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
 
 [sub_resource type="Animation" id="Animation_ifiyd"]
 resource_name = "attack_right"
@@ -107,6 +181,18 @@ tracks/1/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Area2D/AttackRightCollision:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.32),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
 
 [sub_resource type="Animation" id="Animation_oj35a"]
 resource_name = "attack_up"
@@ -123,6 +209,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [48, 49, 50, 51]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Area2D/AttackUpCollision:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.32),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
 }
 
 [sub_resource type="Animation" id="Animation_1vyqo"]
@@ -428,6 +526,15 @@ graph_offset = Vector2(9, 18)
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_cmijl")
 
+[node name="Hitbox" parent="." instance=ExtResource("2_a6k1e")]
+position = Vector2(0.5, -4)
+
+[node name="BodyCollisionShape2" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_1784y")
+
+[node name="Health" parent="." instance=ExtResource("2_3q7o3")]
+max_hp = 5
+
 [node name="BodyCollisionShape" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, -4)
 shape = SubResource("RectangleShape2D_1784y")
@@ -455,26 +562,30 @@ parameters/Attack/blend_position = Vector2(-0.000772178, 0.0220264)
 parameters/Idle/blend_position = Vector2(-0.000772178, 0.0484581)
 parameters/Walk/blend_position = Vector2(0, 0)
 
-[node name="AttackDownCollision" type="CollisionPolygon2D" parent="."]
-visible = false
-position = Vector2(-2, -2)
-polygon = PackedVector2Array(-10, 0, -9, 5, -4, 9, 4, 9, 9, 4, 9, -2, 2, 4, -5, 4)
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="AttackRightCollision" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PackedVector2Array(-16, -7, -16, -4, -2, 4, 9, 4, 15, 2, 18, -2, 18, -5, 12, -9, 7, -9, 7, -8, 10, -6, 9, -2, 3, 0, 0, 0, -12, -7)
 disabled = true
 
-[node name="AttackLeftCollision" type="CollisionPolygon2D" parent="."]
-visible = false
-polygon = PackedVector2Array(-7, -9, -12, -9, -18, -5, -18, -2, -13, 3, -9, 4, 2, 4, 10, 1, 16, -5, 15, -6, 12, -6, 0, 1, -3, 1, -11, -3)
-disabled = true
-
-[node name="AttackUpCollision" type="CollisionPolygon2D" parent="."]
-visible = false
+[node name="AttackUpCollision" type="CollisionPolygon2D" parent="Area2D"]
 position = Vector2(0, -17)
 polygon = PackedVector2Array(-9, 9, -9, 3, -4, -2, 4, -2, 10, 4, 10, 7, 9, 7, 1, 3)
 disabled = true
 
-[node name="AttackRightCollision" type="CollisionPolygon2D" parent="."]
-visible = false
-polygon = PackedVector2Array(-16, -7, -16, -4, -2, 4, 9, 4, 15, 2, 18, -2, 18, -5, 12, -9, 7, -9, 7, -8, 10, -6, 9, -2, 3, 0, 0, 0, -12, -7)
+[node name="AttackLeftCollision" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PackedVector2Array(-7, -9, -12, -9, -18, -5, -18, -2, -13, 3, -9, 4, 2, 4, 10, 1, 16, -5, 15, -6, 12, -6, 0, 1, -3, 1, -11, -3)
 disabled = true
 
+[node name="AttackDownCollision" type="CollisionPolygon2D" parent="Area2D"]
+position = Vector2(-2, -2)
+polygon = PackedVector2Array(-10, 0, -9, 5, -4, 9, 4, 9, 9, 4, 9, -2, 2, 4, -5, 4)
+disabled = true
+
+[connection signal="hit" from="Hitbox" to="." method="_on_hitbox_hit"]
+[connection signal="on_death" from="Health" to="." method="_on_health_on_death"]
+[connection signal="on_health_updated" from="Health" to="." method="_on_health_on_health_updated"]
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
